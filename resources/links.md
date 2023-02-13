@@ -40,4 +40,3 @@ Brainflow Ganglion Setup [CLICKME](https://brainflow.readthedocs.io/en/stable/Su
 
 The different types of brain waves [CLICKME](https://www.researchgate.net/figure/Brain-waves-charts-description_fig1_325701712)
 
-yep
