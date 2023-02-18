@@ -29,8 +29,13 @@ board.release_session()
 eeg_channels = BoardShim.get_eeg_channels(BoardIds.SYNTHETIC_BOARD.value)
 
 df = pd.DataFrame(np.transpose(data))
-print(data)
+
+boi = pd.DataFrame(np.transpose(pd.read_csv("test_data\BrainFlow-RAW_2023-02-10_23-48-13_7.csv")))
+
 print(df)
+
+
+"""
 
 print('Data From the Board')
 test = df.iloc[:, 3]
@@ -38,7 +43,7 @@ test = df.iloc[:, 3]
  
 # Matplotlib.pyplot.specgram() function to
 # generate spectrogram
-plt.specgram(test.values, NFFT=5000, Fs=200, cmap="rainbow")
+plt.specgram(test.values, NFFT=256, Fs=200, cmap="rainbow")
  
 # Set the title of the plot, xlabel and ylabel
 # and display using show() function
@@ -46,3 +51,5 @@ plt.colorbar()
 plt.ylabel("Freq (hz)") # what
 plt.xlabel("Time (s)")
 plt.show()
+
+"""
