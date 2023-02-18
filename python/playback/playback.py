@@ -7,10 +7,6 @@ from brainflow.board_shim import BoardShim, BrainFlowInputParams, BoardIds, Brai
 def main():
     BoardShim.enable_dev_board_logger()
 
-    parser = argparse.ArgumentParser()
-    # use docs to check which parameters are required for specific board, e.g. for Cyton - set serial port
-
-
     params = BrainFlowInputParams()
     params.master_board = BoardIds.GANGLION_BOARD
     params.file = "test_data\BrainFlow-RAW_2023-02-10_23-48-13_8.csv"

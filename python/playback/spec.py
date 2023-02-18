@@ -2,29 +2,46 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
- 
+import time
+from brainflow.board_shim import BoardShim, BrainFlowInputParams, LogLevels, BoardIds
+from brainflow.data_filter import DataFilter
+
 # Set the time difference to take picture of
 # the the generated signal.
 Time_difference = 0.0001
  
 # Generating an array of values
+BoardShim.enable_dev_board_logger()
+params = BrainFlowInputParams()
+params.master_board = BoardIds.GANGLION_BOARD
+params.file = "test_data\BrainFlow-RAW_2023-02-10_23-48-13_8.csv"
+board = BoardShim(BoardIds.PLAYBACK_FILE_BOARD, params)
 
-data = pd.read_csv("test_data/BrainFlow-RAW_2023-02-10_23-48-13_8.csv")
+board.prepare_session()
+board.start_stream()
+BoardShim.log_message(LogLevels.LEVEL_INFO.value, 'start sleeping in the main thread')
+time.sleep(10)
+data = board.get_board_data()
+board.stop_stream()
+board.release_session()
 
+# demo how to convert it to pandas DF and plot data
+eeg_channels = BoardShim.get_eeg_channels(BoardIds.SYNTHETIC_BOARD.value)
 
+df = pd.DataFrame(np.transpose(data))
+print('Data From the Board')
+test = df.iloc[:, 3]
 
-Time_Array = np.linspace(0, 5, math.ceil(5 / Time_difference))
+print(test.values) # series
  
-# Actual data array which needs to be plot
-Data = 20*(np.sin(3 * np.pi * Time_Array))
  
 # Matplotlib.pyplot.specgram() function to
 # generate spectrogram
-plt.specgram(Data, Fs=6, cmap="rainbow")
+plt.specgram(test.values, NFFT=500, Fs=200, cmap="rainbow")
  
 # Set the title of the plot, xlabel and ylabel
 # and display using show() function
-plt.title('Spectrogram Using matplotlib.pyplot.specgram() Method')
-plt.xlabel("DATA")
-plt.ylabel("TIME")
+plt.colorbar()
+plt.ylabel("Freq (hz)") # what
+plt.xlabel("Time (s)")
 plt.show()
