@@ -69,10 +69,11 @@ def main():
     args = parser.parse_args()
 
     params = BrainFlowInputParams()
-    params.serial_port = "COM5"
+    params.master_board = BoardIds.GANGLION_BOARD
+    params.file = "test_data\BrainFlow-RAW_2023-02-10_23-48-13_8.csv"
 
     try:
-        board_shim = BoardShim(BoardIds.GANGLION_BOARD, params)
+        board_shim = BoardShim(BoardIds.PLAYBACK_FILE_BOARD, params)
         board_shim.prepare_session()
         board_shim.start_stream(450000, args.streamer_params)
         Graph(board_shim)
