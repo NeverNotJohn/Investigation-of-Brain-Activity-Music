@@ -14,7 +14,7 @@ Time_difference = 0.0001
 BoardShim.enable_dev_board_logger()
 params = BrainFlowInputParams()
 params.master_board = BoardIds.GANGLION_BOARD
-params.file = "test_data\BrainFlow-RAW_2023-02-10_23-48-13_8.csv"
+params.file = "test_data\BrainFlow-RAW_2023-02-10_23-48-13_7.csv"
 board = BoardShim(BoardIds.PLAYBACK_FILE_BOARD, params)
 
 board.prepare_session()
@@ -29,15 +29,16 @@ board.release_session()
 eeg_channels = BoardShim.get_eeg_channels(BoardIds.SYNTHETIC_BOARD.value)
 
 df = pd.DataFrame(np.transpose(data))
+print(data)
+print(df)
+
 print('Data From the Board')
 test = df.iloc[:, 3]
-
-print(test.values) # series
  
  
 # Matplotlib.pyplot.specgram() function to
 # generate spectrogram
-plt.specgram(test.values, NFFT=500, Fs=200, cmap="rainbow")
+plt.specgram(test.values, NFFT=5000, Fs=200, cmap="rainbow")
  
 # Set the title of the plot, xlabel and ylabel
 # and display using show() function
