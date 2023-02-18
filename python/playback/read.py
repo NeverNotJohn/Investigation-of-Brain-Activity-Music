@@ -12,13 +12,13 @@ def main():
     # use synthetic board for demo
     params = BrainFlowInputParams()
     params.master_board = BoardIds.GANGLION_BOARD
-    params.file = "test_data\BrainFlow-RAW_2023-02-10_23-48-13_8.csv"
+    params.file = "test_data\BrainFlow-RAW_2023-02-10_23-48-13_7.csv"
     board = BoardShim(BoardIds.PLAYBACK_FILE_BOARD, params)
-    
+
     board.prepare_session()
     board.start_stream()
     BoardShim.log_message(LogLevels.LEVEL_INFO.value, 'start sleeping in the main thread')
-    time.sleep(10)
+    time.sleep(100)
     data = board.get_board_data()
     board.stop_stream()
     board.release_session()
