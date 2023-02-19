@@ -16,7 +16,6 @@ ch_4 = df.iloc[:, 5]
 print(ch_2)
 
 
-
 """   Create Spectogram   """
 
 plt.specgram(ch_2.values, NFFT=512, Fs=200, cmap="rainbow")
