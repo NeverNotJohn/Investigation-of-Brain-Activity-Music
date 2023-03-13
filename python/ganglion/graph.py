@@ -3,7 +3,7 @@ import pandas as pd
 
 """   Read File and separate to different channels   """
 
-df = pd.read_csv("test_data/OpenBCI-RAW-2023-03-07_18-30-02-DS-Alpha-T4.csv", sep=",", skiprows=4)
+df = pd.read_csv("data/OpenBCI-RAW-2023-03-07_18-30-02-DS-Alpha-T4.csv", sep=",", skiprows=4)
 
 print(df)
 
