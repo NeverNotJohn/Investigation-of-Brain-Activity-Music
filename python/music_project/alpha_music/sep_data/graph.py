@@ -5,9 +5,9 @@ from scipy import signal
 
 """   Read File and separate to different channels   """
 
-name = "DS Alpha T4: Music Section 1"
+name = "RG Alpha T2: Music Section 1"
 
-df = pd.read_csv("music_one\OpenBCI-RAW-2023-03-07_18-30-02-DS-Alpha-T4_music_one.csv", sep=",")
+df = pd.read_csv("music_one\OpenBCI-RAW-2023-03-08_17-13-31-RG-Alpha-T2_music_one.csv", sep=",")
 
 print(df)
 
@@ -49,6 +49,7 @@ ch_2 = ch_2.to_numpy()
 sos = signal.butter(4, [50, 60], btype='bandpass', output='sos', fs=sample_rate)
 
 ch_2 = signal.sosfilt(sos, ch_2)
+ch_4 = signal.sosfilt(sos, ch_4)
 
 
 
@@ -57,10 +58,17 @@ ch_2 = signal.sosfilt(sos, ch_2)
 for i in range(len(dt)):                        # dt[index] = index / frequency of data collection
     dt[i] = i / sample_rate                     # ganglion records 200 data points a second (200 hz)
 
-plt.title(name)
-plt.plot(dt, ch_2)                
-plt.ylabel("Volts (µV)")
-plt.xlabel("Time (s)")              
+fig, [ax1, ax2] = plt.subplots(nrows=2, ncols=1)
+
+ax1.set_title("Channel 2")
+ax2.set_title("Channel 4")
+
+ax1.plot(dt, ch_2)  
+ax2.plot(dt, ch_4)              
+ax1.set_ylabel("Volts (µV)")
+ax1.set_xlabel("Time (s)")              
+ax2.set_ylabel("Volts (µV)")
+ax2.set_xlabel("Time (s)")              
 plt.show()
 
 

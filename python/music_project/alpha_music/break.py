@@ -15,7 +15,7 @@ import pandas as pd
 
 """   Read File   """
 
-file_name = "OpenBCI-RAW-2023-03-08_17-30-16-RG-Alpha-T3"                        # change file name here
+file_name = "RR-Alpha-T4"                        # change file name here
 path = f"raw_data\{file_name}.csv"
 
 df = pd.read_csv(path, sep=",", skiprows=4)
