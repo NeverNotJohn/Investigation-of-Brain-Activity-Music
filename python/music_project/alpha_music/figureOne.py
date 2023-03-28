@@ -20,7 +20,7 @@ ax2.set_xlabel("Time (s)")
 """   Read File   """
 
 # CHANGE THIS VAR TO GET NEXT FOLDER
-directory = 'sep_data\sleep_one'
+directory = 'sep_data\music_one'
 
 for filename in os.listdir(directory):
     
