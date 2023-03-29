@@ -7,17 +7,29 @@ from scipy import signal
 
 name = "RG Alpha T2: Music Section 1"
 
-df = pd.read_csv("music_one\OpenBCI-RAW-2023-03-08_17-13-31-RG-Alpha-T2_music_one.csv", sep=",")
+df = pd.read_csv("music_one\JP-Alpha-T1_music_one.csv", sep=",")
 
 print(df)
 
 sample_rate = 200
 
+""" RUNNING AVERAGE """
+
+"""
+df[" EXG Channel 1"] = df[" EXG Channel 1"].rolling(window=sample_rate).mean()
+df[" EXG Channel 3"] = df[" EXG Channel 3"].rolling(window=sample_rate).mean()
+
+print(df)
+
+
+
 ch_2 = df.loc[:, " EXG Channel 1"]
 ch_4 = df.loc[:, " EXG Channel 3"]
+"""
 
 """ Remove Outliers """
 
+"""
 lower = ch_2.quantile(.25)                     # CONTAIN DATA ONLY IN INNER QUARTILE          
 upper = ch_2.quantile(.75)
 ch_2 = ch_2.clip(lower=lower, upper=upper)
@@ -25,7 +37,7 @@ ch_2 = ch_2.clip(lower=lower, upper=upper)
 lower = ch_4.quantile(.25)                    
 upper = ch_4.quantile(.75)
 ch_4 = ch_4.clip(lower=lower, upper=upper)
-
+"""
 
 dt = (ch_2.index.values.tolist())               # dt = change in time... x-axis of plot
 
@@ -50,6 +62,7 @@ sos = signal.butter(4, [50, 60], btype='bandpass', output='sos', fs=sample_rate)
 
 ch_2 = signal.sosfilt(sos, ch_2)
 ch_4 = signal.sosfilt(sos, ch_4)
+
 
 
 

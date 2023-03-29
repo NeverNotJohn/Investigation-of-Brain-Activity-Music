@@ -41,6 +41,8 @@ for filename in os.listdir(directory):
         ch_2 = df.loc[:, " EXG Channel 1"]
         ch_4 = df.loc[:, " EXG Channel 3"]
 
+        """ ROLLING AVERAGE """
+
         """ Remove Outliers """
 
         """
