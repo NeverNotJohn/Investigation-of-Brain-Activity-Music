@@ -6,8 +6,11 @@ from scipy import signal
 
 """ Take input """
 
-df = pd.read_csv("alpha_music\sep_data\music_one\RR-Alpha-T1_music_one.csv", sep=",")
-df_no = pd.read_csv("stim_music\sep_data\music_one\RR-Stim-T1_music_one.csv", sep=",")
+fileName_alpha = "RB-Alpha-T1_music_one.csv"
+fileName_stim = "RB-Stim-T1_music_one.csv"
+
+df = pd.read_csv(f"alpha_music\sep_data\music_one\{fileName_alpha}", sep=",")
+df_no = pd.read_csv(f"stim_music\sep_data\music_one\{fileName_stim}", sep=",")
 
 sample_rate = 200
 
@@ -31,14 +34,16 @@ ch_2_music = ch_2_music.to_numpy()
 sos = signal.butter(4, [8, 13], btype='bandpass', output='sos', fs=sample_rate)
 
 ch_2_alpha_music = signal.sosfilt(sos, ch_2_music)
-ch_2_alpha_no_music = signal.sosfilt(sos, ch_2_no_music)
+ch_2_stim_music = signal.sosfilt(sos, ch_2_no_music)
 
 peaks_music, _ = signal.find_peaks(ch_2_alpha_music, prominence=0.3)
-peaks_no_music, _ = signal.find_peaks(ch_2_alpha_no_music, prominence=0.3)
+peaks_stim, _ = signal.find_peaks(ch_2_stim_music, prominence=0.3)
 
 dt = np.array(dt)
 dt_no = np.array(dt_no)
 
+
+"""
 
 # Plot Peaks
 
@@ -49,24 +54,25 @@ plt.ylabel("Volts (µV)")
 plt.title("Music Signal with Peaks")
 plt.show()
 
+"""
+
 """ GET LIST OF PEAK AMPLITUDES """
 
 peaks_music_list = ch_2_alpha_music[peaks_music]
-peaks_no_music_list = ch_2_alpha_no_music[peaks_no_music]
+peaks_no_music_list = ch_2_stim_music[peaks_stim]
 
 """ GENERATE HISTOGRAM """
-# generate some random data for the histogram
-
-# plot the histogram
 
 fig, [ax1, ax2] = plt.subplots(nrows=2, ncols=1, constrained_layout=True)
-fig.suptitle("Amplitude Distribution Alpha music vs Stim music (Alpha Brain Waves)")
+fig.suptitle(f"Amplitude Distribution Alpha music vs Stim music - ALPHA BRAIN WAVES")
 
+ax1.set_title(f"Alpha Music - {fileName_alpha}")
 ax1.hist(peaks_music_list, bins=50)
 ax1.set_xlabel('Amplitude (µV)')
 ax1.set_ylabel('Frequency (# of peaks)')
 ax1.set_title('Alpha Music')
 
+ax2.set_title(f"Stim Music - {fileName_stim}")
 ax2.hist(peaks_no_music_list, bins=50)
 ax2.set_xlabel('Amplitude (µV)')
 ax2.set_ylabel('Frequency (# of peaks)')

@@ -4,6 +4,8 @@ from scipy import signal
 
 """ Read File and separate channels """
 
+file_name = "RR-Alpha-T1_music_one.csv"
+
 df = pd.read_csv("data_music\RR-Alpha-T1_music_one.csv", sep=",")
 
 sample_rate = 200
@@ -11,8 +13,17 @@ sample_rate = 200
 lower_bounds = 0 * sample_rate          # sec * sampling rate                                          # seconds input * sample_rate hz sample rate
 upper_bounds =  30 * sample_rate
 
+test = df.loc[:, " EXG Channel 1"]
+print("Test:")
+print(test)
+
+print("Lower_bounds = " , lower_bounds)
+
 ch_2 = df.loc[lower_bounds:upper_bounds, " EXG Channel 1"]
 ch_4 = df.loc[lower_bounds:upper_bounds, " EXG Channel 3"]
+
+print("ch_2")
+print(ch_2)
 
 dt = (ch_2.index.tolist())     
 
@@ -61,6 +72,37 @@ beta.plot(dt, ch_2_beta)
 alpha.plot(dt, ch_2_alpha)
 theta.plot(dt, ch_2_theta)
 delta.plot(dt, ch_2_delta)
+
+gamma.plot(dt, ch_4_alpha)
+beta.plot(dt, ch_4_beta)
+alpha.plot(dt, ch_4_alpha)
+theta.plot(dt, ch_4_theta)
+delta.plot(dt, ch_4_delta)
+
+gamma.set_ylabel("Volts (µV)")
+gamma.set_xlabel("Time (s)")
+beta.set_ylabel("Volts (µV)")
+beta.set_xlabel("Time (s)")
+alpha.set_ylabel("Volts (µV)")
+alpha.set_xlabel("Time (s)")
+theta.set_ylabel("Volts (µV)")
+theta.set_xlabel("Time (s)")
+delta.set_ylabel("Volts (µV)")
+delta.set_xlabel("Time (s)")
+
+plt.show()
+
+""" JUST CHANNEL 2"""
+
+fig, [gamma, beta, alpha, theta, delta] = plt.subplots(nrows=5, ncols=1, constrained_layout=True)
+
+fig.suptitle(f"Alpha Music Brain Wave Decomposition Channel 4 - {file_name}")
+
+gamma.set_title("Gamma (32 - 99 Hz)")
+beta.set_title("Beta (13 - 32 Hz)")
+alpha.set_title("Alpha (8 - 13 Hz)")
+theta.set_title("Theta (4 - 8 Hz)")
+delta.set_title("Delta (0.5 - 4 Hz)")
 
 gamma.plot(dt, ch_4_alpha)
 beta.plot(dt, ch_4_beta)
