@@ -7,7 +7,7 @@ from scipy import signal
 
 name = "RG Alpha T2: Music Section 1"
 
-df = pd.read_csv("music_one\JP-Alpha-T1_music_one.csv", sep=",")
+df = pd.read_csv("music_one\\average\\average_waveform.csv", sep=",")
 
 print(df)
 
@@ -20,12 +20,12 @@ df[" EXG Channel 1"] = df[" EXG Channel 1"].rolling(window=sample_rate).mean()
 df[" EXG Channel 3"] = df[" EXG Channel 3"].rolling(window=sample_rate).mean()
 
 print(df)
-
+"""
 
 
 ch_2 = df.loc[:, " EXG Channel 1"]
 ch_4 = df.loc[:, " EXG Channel 3"]
-"""
+
 
 """ Remove Outliers """
 
@@ -46,7 +46,7 @@ print(ch_2)
 """   Create Spectogram   """
 
 plt.title(name)
-plt.specgram(ch_2, NFFT=256, Fs=sample_rate, cmap="rainbow")    # chage NFFT???
+plt.specgram(ch_2, NFFT=sample_rate, Fs=sample_rate, cmap="rainbow")    # chage NFFT???
 bar = plt.colorbar()
 bar.ax.set_title('Amplitude? ')
 plt.ylabel("Freq (hz)")

@@ -9,7 +9,7 @@ import os
 # CHANGE THIS VAR TO GET NEXT FOLDER
 directory = 'music_one'
 
-index = 0
+dataFrameList = []
 
 for filename in os.listdir(directory):
     
@@ -17,21 +17,25 @@ for filename in os.listdir(directory):
     # checking if it is a file
     
     if os.path.isfile(f):
-        print(f)
         
-        index = index + 1
-        
-        """   Read File and separate to different channels   """
+        """   Read Files and add to list  """
 
         df = pd.read_csv(f, sep=",")
+        dataFrameList.append(df)
+ 
+print(dataFrameList[0])  
 
-        print(df)
+avgDataFrame = dataFrameList[0]
 
-        sample_rate = 200
+for i in range(1, len(dataFrameList)):
+    avgDataFrame = avgDataFrame.add(dataFrameList[i])
 
-        ch_2 = df.loc[:, " EXG Channel 1"]
-        ch_4 = df.loc[:, " EXG Channel 3"]
+avgDataFrame = avgDataFrame / len(dataFrameList)
+  
+    
+print(avgDataFrame)
 
+avgDataFrame.to_csv(f"music_one\\average\\average_waveform.csv") 
 
 """
     NOTES:
