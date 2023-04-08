@@ -17,8 +17,8 @@ sample_rate = 200
 lower_bounds = 0 * sample_rate                                                   # seconds input * sample_rate hz sample rate
 upper_bounds =  25 * sample_rate
 
-ch_2_music = df.loc[lower_bounds:upper_bounds, " EXG Channel 1"]
-ch_2_no_music = df_no.loc[lower_bounds:upper_bounds, " EXG Channel 1"]
+ch_2_music = df.loc[:, " EXG Channel 1"]
+ch_2_no_music = df_no.loc[:, " EXG Channel 1"]
 
 dt = (ch_2_music.index.tolist())               # dt = change in time... x-axis of plot
 dt_no = (ch_2_no_music.index.tolist())
@@ -31,7 +31,14 @@ for i in range(len(dt)):                        # dt[index] = index / frequency 
 
 ch_2_music = ch_2_music.to_numpy()
 
-sos = signal.butter(4, [8, 13], btype='bandpass', output='sos', fs=sample_rate)
+# frequency ranges in array form
+gamma = [32, 99]
+beta = [13, 32]
+alpha = [8, 13]
+theta = [4, 8]
+delta = [0.5, 4]
+
+sos = signal.butter(4, delta, btype='bandpass', output='sos', fs=sample_rate)
 
 ch_2_alpha_music = signal.sosfilt(sos, ch_2_music)
 ch_2_stim_music = signal.sosfilt(sos, ch_2_no_music)
@@ -43,7 +50,6 @@ dt = np.array(dt)
 dt_no = np.array(dt_no)
 
 
-"""
 
 # Plot Peaks
 
@@ -54,7 +60,6 @@ plt.ylabel("Volts (µV)")
 plt.title("Music Signal with Peaks")
 plt.show()
 
-"""
 
 """ GET LIST OF PEAK AMPLITUDES """
 
@@ -64,18 +69,16 @@ peaks_no_music_list = ch_2_stim_music[peaks_stim]
 """ GENERATE HISTOGRAM """
 
 fig, [ax1, ax2] = plt.subplots(nrows=2, ncols=1, constrained_layout=True)
-fig.suptitle(f"Amplitude Distribution Alpha music vs Stim music - ALPHA BRAIN WAVES")
+fig.suptitle(f"Amplitude Distribution Alpha music vs Stim music - DELTA BRAIN WAVES")
 
 ax1.set_title(f"Alpha Music - {fileName_alpha}")
-ax1.hist(peaks_music_list, bins=50)
+ax1.hist(peaks_music_list, bins=200)
 ax1.set_xlabel('Amplitude (µV)')
 ax1.set_ylabel('Frequency (# of peaks)')
-ax1.set_title('Alpha Music')
 
 ax2.set_title(f"Stim Music - {fileName_stim}")
-ax2.hist(peaks_no_music_list, bins=50)
+ax2.hist(peaks_no_music_list, bins=200)
 ax2.set_xlabel('Amplitude (µV)')
 ax2.set_ylabel('Frequency (# of peaks)')
-ax2.set_title('Stim Music')
 
 plt.show()
